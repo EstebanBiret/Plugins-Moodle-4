@@ -1,0 +1,160 @@
+/* Forms */
+.form-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.break {
+    flex-basis: 100%;
+    height: 0;
+}
+
+#hidden-form, #hidden-form-2, #hidden-form-3, #hidden-form-4, 
+#hidden-form-5, #hidden-form-6, #hidden-form-7, #hidden-form-8, #hidden-form-date, #dates-counter-button-container, #redirect-to-course, #first-line, #second-line {
+    display: none;
+}
+
+#hidden-form-date {
+    border: 1px solid #dee2e6;
+    border-radius: 1rem;
+    padding-left: 2.2em;
+    padding-top: 2rem;
+}
+
+#form-label {
+    overflow-wrap: anywhere;
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 10px;
+}
+
+#error {
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+#error-filters {
+    text-align: center;
+    font-weight: bold;
+}
+
+#sections-activities-number {
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+#dates-filters {
+    margin-left: 17px;
+}
+
+.flex-container-dates-counter-button {
+    font-weight: bold;
+    font-size: 18px;
+    display: flex !important;
+    align-items: center;
+    gap: 15px;
+}
+
+.notification-badge {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 0;
+    right: -38px;
+    background: #f16f6f;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 50%;
+    justify-content: center;
+}
+
+#redirect-to-course {
+    height: 36.5px;
+}
+
+#activities-form {
+    max-width: 50%;
+    min-width: 50%;
+}
+
+#activities-form-container {
+    display: flex;
+    gap: 50px;
+}
+
+.activities-container-inline {
+    display: inline-block;
+}
+
+.section-check-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#activities {
+    max-width: 50%;
+}
+
+.hidden {
+    display: none;
+}
+
+.toggle-icon {
+    margin-left: 10px;
+    cursor: pointer;
+    width: 25px;
+    height: 25px;
+    margin-right: 15px;
+    margin-bottom: 5px;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    padding-right: 10px;
+}
+.course-section .section-item  {
+    position: relative;
+}
+
+.activity-checkbox {
+    cursor: pointer;
+}
+
+.green {
+    color: green;
+    margin-bottom: 5px;
+}
+
+.red {
+    color: red;
+}
+
+#id_submitbutton {
+    margin-right: 10px;
+}
+
+/* Notification */
+
+#notification-container {
+    position: fixed;
+    z-index: 999;
+    left: 2em;
+    bottom: -4em;
+    font-size: 1.2em;
+    border-radius: 10px;
+    text-align: center;
+    padding: 1em;
+    opacity: 0;
+    transform: translateZ(180px);
+    transition: bottom 0.5s, opacity 0.5s;
+}

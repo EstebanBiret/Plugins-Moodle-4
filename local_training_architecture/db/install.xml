@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/training_architecture/db" VERSION="20240321" COMMENT="XMLDB file for Moodle local/training_architecture"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
+
+  <TABLES>
+
+    <TABLE NAME="local_training_architecture_level_names" COMMENT="Level names">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="fullname" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="shortname" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="description" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="id" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+     <TABLE NAME="local_training_architecture_training" COMMENT="List of training">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="fullname" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="shortname" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="idnumber" TYPE="char" LENGTH="15" SEQUENCE="false"/>
+        <FIELD NAME="description" TYPE="text" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="granularitylevel" TYPE="int" LENGTH="2" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="issemester" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="id" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_training_architecture_level_names_to_training" COMMENT="Link between level names and training">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="trainingid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="levelnamesid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="level" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="id" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="levelnamesid" TYPE="foreign" FIELDS="levelnamesid" REFTABLE="local_training_architecture_level_names" REFFIELDS="id" ONDELETE="CASCADE"/>
+        <KEY NAME="trainingid" TYPE="foreign" FIELDS="trainingid" REFTABLE="local_training_architecture_training" REFFIELDS="id" ONDELETE="CASCADE"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_training_architecture_cohort_to_training" COMMENT="Link between cohort and training">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="cohortid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="trainingid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="id" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="cohortid" TYPE="foreign" FIELDS="cohortid" REFTABLE="cohort" REFFIELDS="id" ONDELETE="CASCADE"/>
+        <KEY NAME="trainingid" TYPE="foreign" FIELDS="trainingid" REFTABLE="local_training_architecture_training" REFFIELDS="id" ONDELETE="CASCADE"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="cohortid-trainingid" UNIQUE="true" FIELDS="cohortid, trainingid"/>
+      </INDEXES>
+    </TABLE>
+    
+    <TABLE NAME="local_training_architecture_lu" COMMENT="List of LU">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="fullname" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="shortname" TYPE="char" LENGTH="50" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="idnumber" TYPE="char" LENGTH="15" SEQUENCE="false"/>
+        <FIELD NAME="description" TYPE="text" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="id" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_training_architecture_courses_not_architecture" COMMENT="List of courses not in architecture">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="trainingid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="id" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_training_architecture_training_links" COMMENT="Link between training, LU, semester and course">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="trainingid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="luid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="semester" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="level" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="id" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="trainingid" TYPE="foreign" FIELDS="trainingid" REFTABLE="local_training_architecture_training" REFFIELDS="id" ONDELETE="CASCADE"/>
+        <KEY NAME="luid" TYPE="foreign" FIELDS="luid" REFTABLE="local_training_architecture_lu" REFFIELDS="id" ONDELETE="CASCADE"/>
+        <KEY NAME="courseid" TYPE="foreign" FIELDS="courseid" REFTABLE="course" REFFIELDS="id" ONDELETE="CASCADE"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="trainingid-luid-courseid-semester" UNIQUE="true" FIELDS="trainingid, luid, courseid, semester"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="local_training_architecture_order" COMMENT="Get the sort order of each LU in training's links">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="trainingid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="luid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="id" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="trainingid" TYPE="foreign" FIELDS="trainingid" REFTABLE="local_training_architecture_training" REFFIELDS="id" ONDELETE="CASCADE"/>
+        <KEY NAME="luid" TYPE="foreign" FIELDS="luid" REFTABLE="local_training_architecture_lu" REFFIELDS="id" ONDELETE="CASCADE"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_training_architecture_lu_to_lu" COMMENT="Link between LU">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="trainingid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="luid1" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="luid2" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="isluid2course" TYPE="char" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="id" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="trainingid" TYPE="foreign" FIELDS="trainingid" REFTABLE="local_training_architecture_training_links" REFFIELDS="trainingid" ONDELETE="CASCADE"/>
+        <KEY NAME="luid1" TYPE="foreign" FIELDS="luid1" REFTABLE="local_training_architecture_lu" REFFIELDS="id" ONDELETE="CASCADE"/>
+        <KEY NAME="luid2" TYPE="foreign" FIELDS="luid2" REFTABLE="local_training_architecture_lu" REFFIELDS="id" ONDELETE="CASCADE"/>
+      </KEYS>
+    </TABLE>
+
+  </TABLES>
+  
+</XMLDB>
